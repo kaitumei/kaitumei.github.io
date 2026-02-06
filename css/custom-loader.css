@@ -1,0 +1,124 @@
+/* 自定义加载动画样式 */
+.custom-loader-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.85); /* 半透明背景 */
+  backdrop-filter: blur(20px); /* 毛玻璃模糊效果 */
+  -webkit-backdrop-filter: blur(20px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  transition: transform 0.6s cubic-bezier(0.7, 0, 0.3, 1), opacity 0.6s ease-out; /* 幕布拉起动画 */
+}
+
+.custom-loader-container.dark {
+  background-color: rgba(13, 13, 13, 0.85);
+}
+
+.custom-loader-container.fade-out {
+  transform: translateY(-100%); /* 向上拉起幕布 */
+  /* opacity: 0; 如果想要淡出而不是拉起，可以使用 opacity */
+}
+
+/* 加载动画内容 */
+.loader-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+/* 图片加载器 */
+.loader-image {
+  width: 120px;
+  height: 120px;
+  animation: spin 1s linear infinite;
+}
+
+/* 旋转动画 */
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* 脉冲动画 */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+.loader-image.pulse {
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+/* 加载文字 */
+.loader-text {
+  font-size: 16px;
+  color: #333;
+  font-weight: 500;
+}
+
+.custom-loader-container.dark .loader-text {
+  color: #ccc;
+}
+
+/* 加载进度条 */
+.loader-progress {
+  width: 200px;
+  height: 4px;
+  background-color: #f0f0f0;
+  border-radius: 2px;
+  overflow: hidden;
+  margin-top: 10px;
+}
+
+.custom-loader-container.dark .loader-progress {
+  background-color: #333;
+}
+
+.loader-progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #49b1f5, #00c4b6);
+  border-radius: 2px;
+  animation: progress 2s ease-in-out infinite;
+}
+
+@keyframes progress {
+  0% {
+    width: 0%;
+  }
+  50% {
+    width: 100%;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .loader-image {
+    width: 80px;
+    height: 80px;
+  }
+
+  .loader-text {
+    font-size: 14px;
+  }
+
+  .loader-progress {
+    width: 150px;
+  }
+}

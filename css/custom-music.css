@@ -1,0 +1,227 @@
+/* ===========================================
+   Liushen Style Music Player (Optimized)
+   =========================================== */
+
+:root {
+  --liushen-nav-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="dark"] {
+  --liushen-nav-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
+}
+
+#nav-music {
+  display: flex;
+  align-items: center;
+  position: fixed;
+  z-index: 10000;
+  bottom: 20px;
+  left: 20px;
+  cursor: default;
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-origin: left bottom;
+  box-shadow: var(--liushen-nav-shadow);
+  border-radius: 50px;
+  overflow: hidden; /* Keep hidden to maintain capsule shape, careful with playlist */
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  width: 40px; /* Default collapsed width */
+  height: 40px;
+}
+
+[data-theme="dark"] #nav-music {
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
+}
+
+#nav-music:hover {
+  width: auto;
+  max-width: 350px; /* Expanded width to fit controls */
+  padding-right: 15px;
+}
+
+/* Fix APlayer internal styles */
+#nav-music .aplayer {
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  box-shadow: none;
+  border: none;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+#nav-music .aplayer .aplayer-body {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+/* Cover Art (Spinning Disk) */
+#nav-music .aplayer .aplayer-pic {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  transition: all 0.3s;
+  background-size: cover;
+  background-repeat: no-repeat;
+  animation: rotate-disk 20s linear infinite;
+  animation-play-state: paused;
+  z-index: 1;
+}
+
+#nav-music .aplayer.aplayer-playing .aplayer-pic {
+  animation-play-state: running;
+}
+
+/* Hide the center play button on the cover to show full art */
+#nav-music .aplayer .aplayer-pic .aplayer-button {
+  display: none !important;
+}
+
+/* Info Section */
+#nav-music .aplayer .aplayer-info {
+  margin-left: 10px;
+  padding: 0;
+  height: 40px;
+  display: flex;
+  flex-direction: row; /* Align text and controls horizontally */
+  align-items: center;
+  flex-grow: 1;
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+#nav-music:hover .aplayer .aplayer-info {
+  opacity: 1;
+}
+
+/* Text Info */
+#nav-music .aplayer .aplayer-info .aplayer-music {
+  margin: 0;
+  padding: 0;
+  height: auto;
+  line-height: normal;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 120px; /* Limit text width */
+  margin-right: 10px;
+}
+
+#nav-music .aplayer .aplayer-info .aplayer-music .aplayer-title {
+  font-size: 14px;
+  font-weight: bold;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #333;
+}
+
+[data-theme="dark"] #nav-music .aplayer .aplayer-info .aplayer-music .aplayer-title {
+  color: #fff;
+}
+
+#nav-music .aplayer .aplayer-info .aplayer-music .aplayer-author {
+  font-size: 12px;
+  color: #666;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+[data-theme="dark"] #nav-music .aplayer .aplayer-info .aplayer-music .aplayer-author {
+  color: #ccc;
+}
+
+/* Controller (Prev, Play, Next) */
+#nav-music .aplayer .aplayer-info .aplayer-controller {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-shrink: 0;
+  width: auto; /* Allow it to take space */
+}
+
+/* Hide Progress Bar and Volume in this mini mode to save space */
+#nav-music .aplayer .aplayer-info .aplayer-controller .aplayer-bar-wrap,
+#nav-music .aplayer .aplayer-info .aplayer-controller .aplayer-volume-wrap {
+  display: none !important;
+}
+
+/* Ensure Controller Time container is visible (it holds the buttons!) */
+#nav-music .aplayer .aplayer-info .aplayer-controller .aplayer-time {
+  display: flex !important;
+  align-items: center;
+  position: relative;
+  bottom: auto;
+  padding: 0;
+  margin: 0;
+  box-shadow: none;
+}
+
+/* Hide the actual time text to save space */
+#nav-music .aplayer .aplayer-info .aplayer-controller .aplayer-time .aplayer-time-inner {
+  display: none !important;
+}
+
+/* Buttons */
+#nav-music .aplayer .aplayer-info .aplayer-controller .aplayer-icon {
+  width: 18px;
+  height: 18px;
+  margin: 0 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+#nav-music .aplayer .aplayer-info .aplayer-controller .aplayer-icon:hover {
+  opacity: 0.7;
+}
+
+#nav-music .aplayer .aplayer-info .aplayer-controller .aplayer-icon path {
+  fill: #333;
+}
+
+[data-theme="dark"] #nav-music .aplayer .aplayer-info .aplayer-controller .aplayer-icon path {
+  fill: #fff;
+}
+
+/* Play/Pause Button - slightly larger */
+#nav-music .aplayer .aplayer-info .aplayer-controller .aplayer-icon.aplayer-icon-play,
+#nav-music .aplayer .aplayer-info .aplayer-controller .aplayer-icon.aplayer-icon-pause {
+  width: 22px;
+  height: 22px;
+}
+
+/* Ensure buttons are visible */
+#nav-music .aplayer .aplayer-info .aplayer-controller .aplayer-icon-back,
+#nav-music .aplayer .aplayer-info .aplayer-controller .aplayer-icon-play,
+#nav-music .aplayer .aplayer-info .aplayer-controller .aplayer-icon-pause,
+#nav-music .aplayer .aplayer-info .aplayer-controller .aplayer-icon-forward {
+  display: inline-block !important;
+}
+
+/* Hide Menu/List button as list is disabled */
+#nav-music .aplayer .aplayer-info .aplayer-controller .aplayer-icon-menu {
+  display: none !important;
+}
+
+/* Rotation Animation */
+@keyframes rotate-disk {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Hide Lyrics */
+#nav-music .aplayer .aplayer-lrc {
+  display: none !important;
+}
+
+/* Hide List by default, if we want to support it later we need to handle overflow */
+#nav-music .aplayer .aplayer-list {
+  display: none; /* Keep list hidden for now as it breaks the capsule layout */
+}

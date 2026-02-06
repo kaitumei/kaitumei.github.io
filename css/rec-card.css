@@ -1,0 +1,70 @@
+/* link卡片父容器：调整间距更宽松，适配清新风格 */
+.link-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px; /* 间距从15px调大，避免卡片挤在一起 */
+  margin: 25px 0; /* 上下边距增加，和页面顶部“分享”标题拉开距离 */
+  justify-content: center; /* 从左对齐改成居中，更贴合页面视觉重心 */
+}
+
+/* 单个link卡片：增强质感+风格适配 */
+.link-card {
+  width: 130px; /* 宽度微调，更舒展 */
+  padding: 12px 10px; /* 上下内边距增加，内容不拥挤 */
+  background: rgba(255, 255, 255, 0.85); /* 背景透明度提高，更柔和 */
+  border-radius: 12px; /* 圆角加大，更契合可爱风格 */
+  border: 1px solid rgba(240, 240, 240, 0.9); /* 加淡色细边框，增强层次感（不突兀） */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  backdrop-filter: blur(8px); /* 毛玻璃模糊度提高，适配背景渐变 */
+  transition: all 0.35s ease; /* 过渡时长稍增加，动画更丝滑 */
+}
+
+/* 卡片悬浮效果：补充hover交互，比点击动画更前置 */
+.link-card:hover {
+  transform: translateY(-6px); /* 上移幅度比点击大，区分状态 */
+  box-shadow: 0 6px 12px rgba(220, 230, 240, 0.5); /* 淡蓝色阴影，贴合页面背景色调 */
+  border-color: rgba(62, 184, 190, 0.2); /* 悬浮时边框带点主题色，增加细节 */
+}
+
+/* link卡片内的图片：优化圆角+适配卡片 */
+.link-card img {
+  width: 45px; 
+  height: 45px;
+  border-radius: 10px; /* 图片圆角和卡片呼应，不是圆形更协调 */
+  margin-bottom: 10px; /* 图片和标题间距加大 */
+  object-fit: cover; /* 防止图片变形 */
+}
+
+/* 标题样式：突出显示 */
+.link-card .link-title {
+  font-size: 15px;
+  font-weight: 500; /* 轻微加粗，区分链接 */
+  color: #222; /* 颜色加深，更醒目 */
+  margin-bottom: 4px; /* 和链接拉开距离 */
+}
+
+/* 链接样式：单独区分，避免和标题混淆 */
+.link-card .link-url {
+  font-size: 12px;
+  color: #888; /* 颜色变淡，作为辅助信息 */
+  text-decoration: none; /* 去掉默认下划线 */
+}
+/* 链接悬浮：hover时轻微变色 */
+.link-card .link-url:hover {
+  color: #3eb8be; /* 主题色，提示可点击 */
+}
+
+/* 卡片点击动画：合并冗余代码+优化效果 */
+.link-card:active {
+  transform: translateY(-4px) scale(0.98); /* 上移幅度比hover小，缩放更轻微，更自然 */
+  background: rgba(255, 255, 255, 0.98); /* 背景接近纯白，强化“按压高亮” */
+  box-shadow: 0 4px 8px rgba(62, 184, 190, 0.15); /* 主题色阴影减弱，贴合点击状态 */
+}
+
+/* 全局设置盒模型（避免padding/border影响宽度计算） */
+.link-card {
+  box-sizing: border-box; /* 核心：卡片的padding/border不会超出设置的宽度 */
+}

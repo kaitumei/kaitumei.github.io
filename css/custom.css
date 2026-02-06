@@ -1,0 +1,378 @@
+/* ===========================================
+   全局毛玻璃与立体感 (Glassmorphism & 3D Depth)
+   适用于：侧边栏、文章列表、文章详情、页面容器
+   =========================================== */
+
+/* 通用毛玻璃卡片样式 mixin */
+.card-widget,
+.recent-posts .recent-post-item,
+#post,
+#page,
+#archive,
+#tag,
+#category {
+  background: rgba(255, 255, 255, 0.7) !important;
+  backdrop-filter: blur(12px) saturate(180%);
+  -webkit-backdrop-filter: blur(12px) saturate(180%);
+  
+  /* 立体感核心：边框高光 + 多层阴影 */
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-top: 1px solid rgba(255, 255, 255, 0.8); /* 顶部高光更强，模拟光照 */
+  border-left: 1px solid rgba(255, 255, 255, 0.8); /* 左侧高光 */
+  
+  box-shadow: 
+    0 8px 20px rgba(0, 0, 0, 0.08), /* 远阴影，增加悬浮感 */
+    0 2px 6px rgba(0, 0, 0, 0.05),  /* 近阴影，增加贴合感 */
+    inset 0 0 20px rgba(255, 255, 255, 0.3) !important; /* 内发光，增加厚度感 */
+    
+  border-radius: 12px !important;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* 移除 404 页面外层容器 (#page 或 #body-wrap) 的毛玻璃背景，避免双重背景 */
+body.is-404 #page,
+body.is-404 #body-wrap,
+body.is-404 .type-404 {
+  background: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  /* 移除外层容器的 padding，确保内容贴边或由内部控制 */
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+/* 确保 404 页面容器至少占满屏幕，以便页脚沉底 */
+#body-wrap.type-404 {
+    position: relative !important;
+    min-height: 100vh !important;
+    /* 预留页脚高度，防止内容被遮挡 */
+    padding-bottom: 150px !important;
+}
+
+/* 移除 404 页面外层容器 (#page.nc) 的毛玻璃背景，避免双重背景 */
+#page.nc {
+  background: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+/* 悬停增强立体感 */
+.card-widget:hover,
+.recent-posts .recent-post-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 
+    0 12px 28px rgba(0, 0, 0, 0.12),
+    0 4px 10px rgba(0, 0, 0, 0.08),
+    inset 0 0 20px rgba(255, 255, 255, 0.4) !important;
+}
+
+/* 深色模式适配 */
+[data-theme="dark"] .card-widget,
+[data-theme="dark"] .recent-posts .recent-post-item,
+[data-theme="dark"] #post,
+[data-theme="dark"] #page,
+[data-theme="dark"] #archive,
+[data-theme="dark"] #tag,
+[data-theme="dark"] #category {
+  background: rgba(30, 30, 30, 0.6) !important; /* 深色半透明 */
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+  
+  box-shadow: 
+    0 8px 20px rgba(0, 0, 0, 0.4),
+    inset 0 0 20px rgba(255, 255, 255, 0.02) !important;
+}
+
+/* 深色模式下移除 404 外层背景 */
+[data-theme="dark"] #page.nc {
+  background: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+[data-theme="dark"] .card-widget:hover,
+[data-theme="dark"] .recent-posts .recent-post-item:hover {
+  box-shadow: 
+    0 12px 28px rgba(0, 0, 0, 0.5),
+    inset 0 0 20px rgba(255, 255, 255, 0.05) !important;
+}
+
+/* 
+   特殊处理：个人信息卡片 (Card Info) 
+   自定义背景图片 + 透明遮罩
+*/
+#aside-content > .card-widget.card-info {
+  /* 
+     1. 替换 url(...) 中的链接为你想要的图片地址 
+     2. rgba(255, 255, 255, 0.0) 完全透明，只显示背景图
+  */
+  background: linear-gradient(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.4)), 
+              url('https://b5dbf24.webp.li/icons/labixiaoxin.gif') center center / cover no-repeat !important;
+  
+  /* 重置背景尺寸，防止之前的动画样式干扰 */
+  background-size: cover !important;
+  animation: none !important;
+}
+
+[data-theme="dark"] #aside-content > .card-widget.card-info {
+  /* 深色模式：使用黑色半透明遮罩 */
+  background: linear-gradient(rgba(0, 0, 0, 0.0), rgba(0, 0, 0, 0.0)), 
+              url('https://unpkg.zhimg.com/hexo-theme-butterfly/source/img/404.jpg') center center / cover no-repeat !important;
+  background-size: cover !important;
+}
+
+/* ===========================================
+   404 页面布局终极优化
+   =========================================== */
+
+/* 1. 让 404 页面容器占满屏幕并居中内容 */
+.type-404 {
+    min-height: 85vh; /* 占据大部分视口高度 */
+    display: flex;
+    flex-direction: column; /* 改为纵向排列，以便下方放置文章列表 */
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* 404 页面导航栏样式优化：模拟首页 Banner 效果 */
+
+/* 1. 初始状态（顶部）：透明背景，白色文字 */
+body.is-404 #nav:not(.fixed) {
+    background: transparent !important;
+    box-shadow: none !important;
+    transition: all 0.3s;
+    /* 强制绝对定位，防止被进度条挤压 */
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+}
+
+/* 移除手动 padding，使用主题默认值 */
+
+body.is-404 #nav:not(.fixed) #blog_name,
+body.is-404 #nav:not(.fixed) .menus_item_link,
+body.is-404 #nav:not(.fixed) #site-name {
+    color: #fff !important; /* 强制白色文字，与首页保持一致 */
+    /* 移除阴影以保持完全一致，除非首页确实有 */
+    text-shadow: none !important; 
+}
+
+/* 2. 滚动状态（下划）：恢复毛玻璃背景，深色文字 */
+body.is-404 #nav.fixed {
+    background: rgba(255, 255, 255, 0.8) !important;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1) !important;
+}
+
+body.is-404 #nav.fixed #blog_name,
+body.is-404 #nav.fixed .menus_item_link,
+body.is-404 #nav.fixed #site-name {
+    color: var(--font-color) !important; /* 恢复默认字体颜色 */
+    text-shadow: none;
+}
+
+/* 2. 优化卡片容器 */
+.error-content {
+    display: flex !important;
+    flex-direction: row;
+    align-items: stretch;
+    height: auto !important;
+    min-height: 360px; /* 适中的最小高度 */
+    max-width: 900px;  /* 限制最大宽度，防止太宽 */
+    width: 100%;       /* 在小屏下自适应 */
+    background: rgba(255, 255, 255, 0.7) !important;
+    backdrop-filter: blur(12px) saturate(180%);
+    border-radius: 16px; /* 更圆润的角 */
+    overflow: hidden;
+    margin: 0 !important; /* 由父容器负责居中 */
+    
+    /* 强化立体感 */
+    box-shadow: 
+        0 15px 35px rgba(0,0,0,0.1),
+        0 5px 15px rgba(0,0,0,0.05),
+        inset 0 0 20px rgba(255,255,255,0.5) !important;
+    border: 1px solid rgba(255,255,255,0.6);
+}
+
+/* 页脚样式优化：渐变白 */
+#footer {
+    background: linear-gradient(to top, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.6) 60%, rgba(255, 255, 255, 0) 100%) !important;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    border-top: none !important;
+    color: #4c4948 !important; /* 深灰色文字，确保在白色背景下可见 */
+}
+
+#footer a,
+#footer .footer-separator,
+#footer .framework-info,
+#footer .footer-copyright {
+    color: #4c4948 !important;
+}
+
+#footer a:hover {
+    color: #49b1f5 !important;
+    text-decoration: none !important;
+}
+
+/* 404 页面页脚特殊定位：使用 Flexbox 布局 */
+#body-wrap.type-404 #footer {
+    position: relative !important; /* 不再绝对定位 */
+    margin-top: auto !important;   /* 自动顶到底部 */
+    width: 100%;
+    z-index: 1000;
+    display: block !important;
+}
+
+/* 3. 图片区域优化 */
+.error-content .error-img {
+    flex: 0.45; /* 图片占 45% */
+    width: 45% !important;
+    height: auto !important;
+    position: relative;
+    overflow: hidden;
+    background-color: var(--card-bg);
+}
+
+.error-content .error-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center; /* 确保图片主体居中 */
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+/* 4. 内容区域优化 */
+.error-content .error-info {
+    flex: 0.55; /* 内容占 55% */
+    width: 55% !important;
+    height: auto !important;
+    display: flex !important;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+/* 5. 文字排版优化 */
+.error-content .error-info .error_title {
+    font-size: 6em !important; /* 稍微调小一点标题，避免太夸张 */
+    margin: 0 0 10px 0 !important;
+    line-height: 1;
+    background: linear-gradient(45deg, var(--text-highlight-color), var(--theme-color));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent; /* 渐变色文字 */
+}
+
+.error-content .error-info .error_subtitle {
+    font-size: 1.2em !important;
+    margin: 10px 0 30px 0 !important; /* 增加底部间距 */
+    line-height: 1.6;
+    word-break: normal !important; /* 防止中文异常断行 */
+    white-space: pre-wrap; /* 允许正常换行 */
+}
+
+/* 移动端适配 */
+@media screen and (max-width: 768px) {
+    .type-404 {
+        padding: 10px;
+        min-height: 70vh;
+        align-items: flex-start; /* 移动端靠上一点 */
+        padding-top: 60px;
+    }
+
+    .error-content {
+        flex-direction: column;
+        max-width: 100%;
+        min-height: auto;
+    }
+    
+    .error-content .error-img {
+        width: 100% !important;
+        height: 200px !important; /* 减小移动端图片高度 */
+        flex: none;
+    }
+    
+    .error-content .error-info {
+        width: 100% !important;
+        flex: none;
+        padding: 30px 20px;
+    }
+
+    .error-content .error-info .error_title {
+        font-size: 5em !important;
+    }
+}
+
+/* 隐私信息模糊效果 */
+.blur-text {
+    filter: blur(5px);
+    transition: filter 0.3s ease;
+    cursor: pointer;
+}
+
+.blur-text:hover {
+    filter: none;
+}
+
+
+/* 番剧插件 */
+#page #article-container .bangumi-tab.bangumi-active {
+  background: #425aef !important;
+  color: #f7f7fa !important;
+  border-radius: 10px;
+}
+#page #article-container .bangumi-tabs .bangumi-tab {
+  border-bottom: none;
+  border-radius: 10px;
+}
+#page #article-container .bangumi-tabs a.bangumi-tab:hover {
+  text-decoration: none !important;
+  border-radius: 10px;
+  column-gap: #f7f7fa !important;
+}
+#page #article-container .bangumi-pagination a.bangumi-button {
+  border-bottom: none;
+  border-radius: 10px;
+}
+.bangumi-button:hover {
+  background: #425aef !important;
+  border-radius: 10px !important;
+  color: #f7f7fa !important;
+}
+a.bangumi-button.bangumi-nextpage:hover {
+  text-decoration: none !important;
+}
+.bangumi-button {
+  padding: 5px 10px !important;
+}
+
+a.bangumi-tab {
+  padding: 5px 10px !important;
+}
+svg.icon.faa-tada {
+  font-size: 1.1em;
+}
+.bangumi-info-item {
+  border-right: 1px solid #f2b94b;
+}
+.bangumi-info-item span {
+  color: #f2b94b;
+}
+.bangumi-info-item em {
+  color: #f2b94b;
+}

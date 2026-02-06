@@ -1,0 +1,333 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>追番列表 | Yumi-an</title><meta name="author" content="Kaitumei,zhangsan@example.com"><meta name="copyright" content="Kaitumei"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="你所热爱的 就是你的生活.bangumi-tabs{margin-bottom:15px;margin-top:15px}.bangumi-tab{padding:5px}a.bangumi-tab{text-decoration:none}.bangumi-active{background:#657b83;color:#fff}.bangumi-item{position:relative;c">
+<meta property="og:type" content="website">
+<meta property="og:title" content="追番列表">
+<meta property="og:url" content="http://kaitumei.2345.plus/play/animei/index.html">
+<meta property="og:site_name" content="Yumi-an">
+<meta property="og:description" content="你所热爱的 就是你的生活.bangumi-tabs{margin-bottom:15px;margin-top:15px}.bangumi-tab{padding:5px}a.bangumi-tab{text-decoration:none}.bangumi-active{background:#657b83;color:#fff}.bangumi-item{position:relative;c">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://b5dbf24.webp.li/icons/tx.jpg">
+<meta property="article:author" content="Kaitumei">
+<meta property="article:tag" content="笔记,教程">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://b5dbf24.webp.li/icons/tx.jpg"><script type="application/ld+json"></script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://kaitumei.2345.plus/play/animei/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="stylesheet" href="/css/index.css?v=5.5.4"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.16/dist/snackbar.min.css" media="print" onload="this.media='all'"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!true && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":false,"pagination":{"enable":true,"hitsPerPage":8},"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: {"chs_to_cht":"已切换为繁体中文","cht_to_chs":"已切换为简体中文","day_to_night":"已切换为深色模式","night_to_day":"已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"top-center"},
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.13.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: true,
+  isAnchor: true,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '追番列表',
+  isHighlightShrink: false,
+  isToc: false,
+  pageType: 'page'
+}</script><link rel="stylesheet" href="//at.alicdn.com/t/c/font_5123065_5ok3ezt9tok.css"><link rel="stylesheet" href="/css/custom-loader.css"><link rel="stylesheet" href="/css/custom-nav.css"><link rel="stylesheet" href="/css/custom.css"><link rel="stylesheet" href="https://npm.elemecdn.com/lxgw-wenkai-screen-webfont/style.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="/css/custom-music.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css"><link rel="stylesheet" href="/css/progress_bar.css"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/js-heo@1.0.11/categoryBar/categoryBar.css"><!-- hexo injector head_end start --><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiperstyle.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/font-awesome-animation.min.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/tag_plugins.css" media="defer" onload="this.media='all'"><script src="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/carousel-touch.js"></script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"></head><body><div class="bg-animation" id="web_bg" style="background-image: url(https://b5dbf24.webp.li/icons/nini.png);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://b5dbf24.webp.li/icons/tx.jpg" onerror="this.onerror=null;this.src='/img/favicon.png'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">6</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">7</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><div class="menus_items visible"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><span class="site-page group hide"><i class="fa-fw fas fa-book"></i><span> 文章</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li></ul></div><div class="menus_item"><span class="site-page group hide"><i class="fa-fw iconfont icon-fenxiang"></i><span> 分享</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/resources/"><i class="fa-fw iconfont icon-diannao"></i><span> 资源</span></a></li></ul></div><div class="menus_item"><span class="site-page group hide"><i class="fa-fw iconfont icon-baoxiang-"></i><span> 藏宝阁</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></li><li><a class="site-page child" href="/project/"><i class="fa-fw iconfont icon-xiangmu"></i><span> 项目</span></a></li></ul></div><div class="menus_item"><span class="site-page group hide"><i class="fa-fw iconfont icon-xianhuaduihuanquan"></i><span> 百宝袋</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/play/animei/"><span> 追番</span></a></li><li><a class="site-page child" href="/play/games/"><span> 游戏</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-user"></i><span> 关于</span></a></div></div></div></div><div class="page type-page" id="body-wrap"><header class="not-home-page fixed" id="page-header" style="background-image: url(https://b5dbf24.webp.li/icons/nini.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/" title="Yumi-an"><span class="site-name">Yumi-an</span></a></span><div id="menus"><div class="menus_items visible"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><span class="site-page group hide"><i class="fa-fw fas fa-book"></i><span> 文章</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li></ul></div><div class="menus_item"><span class="site-page group hide"><i class="fa-fw iconfont icon-fenxiang"></i><span> 分享</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/resources/"><i class="fa-fw iconfont icon-diannao"></i><span> 资源</span></a></li></ul></div><div class="menus_item"><span class="site-page group hide"><i class="fa-fw iconfont icon-baoxiang-"></i><span> 藏宝阁</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></li><li><a class="site-page child" href="/project/"><i class="fa-fw iconfont icon-xiangmu"></i><span> 项目</span></a></li></ul></div><div class="menus_item"><span class="site-page group hide"><i class="fa-fw iconfont icon-xianhuaduihuanquan"></i><span> 百宝袋</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/play/animei/"><span> 追番</span></a></li><li><a class="site-page child" href="/play/games/"><span> 游戏</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-user"></i><span> 关于</span></a></div></div></div><div id="name-container"><a id="page-name" href="javascript:btf.scrollToDest(0, 500)">PAGE_NAME</a></div><div id="nav-right"><div id="travellings"><a class="site-page" href="https://www.travellings.cn/go.html" title="友链接力-随机开往" target="_blank" rel="noopener"><i class="fa-solid fa-bus fa-fw"></i></a></div><div id="ten-years"><a class="site-page" href="https://foreverblog.cn/go.html" title="友链接力-十年之约" target="_blank" rel="noopener"><i class="fa-brands fa-nfc-symbol fa-fw"></i></a></div><div id="random"><a class="site-page" href="javascript:toRandomPost()" title="随机前往一个文章"><i class="fa-solid fa-shuffle fa-fw"></i></a></div><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);" title="站内搜索"><i class="fas fa-search fa-fw"></i></a></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);" title="展开菜单"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="page-site-info"><h1 id="site-title">追番列表</h1></div></header><main class="layout" id="content-inner"><div id="page"><div class="container" id="article-container"><blockquote><p>你所热爱的 就是你的生活</p></blockquote><script src="https://pugjs.org/js/pug.js"></script><script src="https://cdn.jsdelivr.net/npm/axios@0.27.2/dist/axios.min.js"></script><style>.bangumi-tabs{margin-bottom:15px;margin-top:15px}.bangumi-tab{padding:5px}a.bangumi-tab{text-decoration:none}.bangumi-active{background:#657b83;color:#fff}.bangumi-item{position:relative;clear:both;padding:10px 0;border-bottom:1px solid #ddd;min-height:180px}@media screen and (max-width:600px){.bangumi-item{width:100%}}.bangumi-picture{position:absolute;left:0;top:10px;width:110px}.bangumi-picture img{margin:10px 0}.bangumi-info{padding-left:120px;margin-top:10px;min-height:160px}.bangumi-meta{font-size:12px;padding-right:10px;height:45px}.bangumi-summary{font-size:12px;margin-top:10px}.bangumi-summary>p{word-break:break-all;text-overflow:ellipsis;overflow:hidden;height:72px;white-space:normal;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;line-clamp:3}.bangumi-summary>p.has-bangumi-progress{height:48px;-webkit-line-clamp:2;line-clamp:2}.bangumi-comments{font-size:12px}.bangumi-pagination{margin-top:15px;text-align:center;margin-bottom:10px}.bangumi-button{padding:5px}.bangumi-button:hover{background:#657b83;color:#fff}.bangumi-hide{display:none}.bangumi-show{display:block}.bangumi-title{font-size:18px;font-weight:700}.bangumi-title a{line-height:1;text-decoration:none}.bangumi-info-items{font-size:12px;color:#2fd8d8;padding-top:10px;line-height:1;float:left;width:100%;height:45px}.bangumi-info-item{display:inline-block;width:13%;border-right:1px solid #2fd8d8;text-align:center;height:34px}.bangumi-info-label{display:block;line-height:12px}.bangumi-info-item em{display:block;padding-top:6px;line-height:17px;font-style:normal;font-weight:700}.bangumi-info-total{padding-top:11px;display:block;line-height:12px;font-weight:700}.bangumi-info-item-score{border-right:1px solid #0000;width:50px}.bangumi-info-label-em{color:transparent;opacity:0;visibility:hidden;line-height:6px!important;padding:0!important}@media (max-width:650px){.bangumi-coin,.bangumi-type{display:none}.bangumi-info-item{width:16%}}@media (max-width:590px){.bangumi-danmaku,.bangumi-wish{display:none}.bangumi-info-item{width:19%}}@media (max-width:520px){.bangumi-doing,.bangumi-play{display:none}.bangumi-info-item{width:24%}}@media (max-width:480px){.bangumi-collect,.bangumi-follow,.bangumi-info-item-follow{display:none}.bangumi-info-item{width:30%}}@media (max-width:400px){.bangumi-area,.bangumi-tag{display:none}.bangumi-info-item{width:45%}}@media (max-width:270px){.bangumi-info-item-score{display:none}.bangumi-info-item{width:100%;border-right:none}}.bangumi-my-comments{border:1px dashed #8f8f8f;padding:3px;border-radius:5px}.bangumi-starstop{background:url(https://cdn.jsdelivr.net/npm/hexo-bilibili-bangumi@1.7.9/lib/img/rate_star_2x.png) 100% 100%/10px 19.5px repeat-x;height:10px;width:50px;display:inline-block;float:none}.bangumi-starlight{background:url(https://cdn.jsdelivr.net/npm/hexo-bilibili-bangumi@1.7.9/lib/img/rate_star_2x.png) 0 0/10px 19.5px repeat-x;height:10px;display:block;width:100%}.bangumi-starlight.stars1{width:5px}.bangumi-starlight.stars2{width:10px}.bangumi-starlight.stars3{width:15px}.bangumi-starlight.stars4{width:20px}.bangumi-starlight.stars5{width:25px}.bangumi-starlight.stars6{width:30px}.bangumi-starlight.stars7{width:35px}.bangumi-starlight.stars8{width:40px}.bangumi-starlight.stars9{width:45px}.bangumi-starlight.stars10{width:50px}.bangumi-info .bangumi-progress{width:100%;height:24px;background-color:#f2f2f2;border-radius:5px;overflow:hidden;font-size:16px;text-align:center;position:relative}.bangumi-info .bangumi-progress-text{z-index:100;position:relative;color:#3c4858;line-height:24px}.bangumi-info .bangumi-progress .progress-bar{z-index:50;height:100%;background-color:#007bffad;border-radius:5px;position:absolute;top:0}</style><div class="bangumi-tabs"><a class="bangumi-tab" id="bangumi-tab1" href="javascript:;" rel="external" target="_self" onclick="return false">想看
+(0)</a><a class="bangumi-tab" id="bangumi-tab2" href="javascript:;" rel="external" target="_self" onclick="return false">在看
+(0)</a><a class="bangumi-tab" id="bangumi-tab3" href="javascript:;" rel="external" target="_self" onclick="return false">已看
+(1)</a></div><div><div id="bangumi-item1"><div class="bangumi-pagination"><a class="bangumi-button bangumi-firstpage" href="javascript:;" target="_self" onclick="return false">首页</a><a class="bangumi-button bangumi-previouspage" href="javascript:;" target="_self" onclick="return false">上一页</a><span class="bangumi-pagenum">2 / 3</span><a class="bangumi-button bangumi-nextpage" href="javascript:;" target="_self" onclick="return false">下一页</a><a class="bangumi-button bangumi-lastpage" href="javascript:;" target="_self" onclick="return false">尾页</a></div></div><div id="bangumi-item2"><div class="bangumi-pagination"><a class="bangumi-button bangumi-firstpage" href="javascript:;" target="_self" onclick="return false">首页</a><a class="bangumi-button bangumi-previouspage" href="javascript:;" target="_self" onclick="return false">上一页</a><span class="bangumi-pagenum">2 / 3</span><a class="bangumi-button bangumi-nextpage" href="javascript:;" target="_self" onclick="return false">下一页</a><a class="bangumi-button bangumi-lastpage" href="javascript:;" target="_self" onclick="return false">尾页</a></div></div><div id="bangumi-item3"><div class="bangumi-item"><div class="bangumi-picture"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://lain.bgm.tv/r/400/pic/cover/l/fd/60/25961_WDKz6.jpg" data-src="https://lain.bgm.tv/r/400/pic/cover/l/fd/60/25961_WDKz6.jpg" referrerpolicy="no-referrer" loading="lazy" width="110" style="width:110px;margin:20px auto;"/></div><div class="bangumi-info"><div class="bangumi-title"><a target="_blank" href="https://bangumi.tv/subject/25961">猫和老鼠</a></div><div class="bangumi-meta"><span class="bangumi-info-items" style="color:#f2b94b;"><span class="bangumi-info-item"><span class="bangumi-info-total">全161话</span><em class="bangumi-info-label-em">0</em></span><span class="bangumi-info-item bangumi-type"><span class="bangumi-info-label">类型</span><em>动画</em></span><span class="bangumi-info-item bangumi-wish"><span class="bangumi-info-label">想看</span><em>590</em></span><span class="bangumi-info-item bangumi-doing"><span class="bangumi-info-label">在看</span><em>613</em></span><span class="bangumi-info-item bangumi-collect"><span class="bangumi-info-label">已看</span><em>21183</em></span><span class="bangumi-info-item bangumi-info-item-score"><span class="bangumi-info-label">评分</span><em>9.1</em></span></span></div><div class="bangumi-summary" style="color:#6587b5;"><p>简介：Tom and Jerry is an American animated series of short films created in 1940 by William Hanna and Joseph Barbera. It centers on a rivalry between its two main characters, Tom Cat and Jerry Mouse, and many recurring characters, based around slapstick comedy.In its original run, Hanna and Barbera produced 114 Tom and Jerry shorts for Metro-Goldwyn-Mayer from 1940 to 1957. During this time, they won seven Academy Awards for Animated Short Film, tying for first place with Walt Disney's Silly Symphonies with the most awards in the category. After the MGM cartoon studio closed in 1957, MGM revived the series with Gene Deitch directing an additional 13 Tom and Jerry shorts for Rembrandt Films from 1960 to 1962. Tom and Jerry then became the highest-grossing animated short film series of that time, overtaking Looney Tunes. Chuck Jones then produced another 34 shorts with Sib-Tower 12 Productions between 1963 and 1967. Two more shorts were produced, The Mansion Cat in 2001 and The Karate Guard in 2005, for a total of 163 shorts. Various shorts have been released for home media since the 1990s.A number of spin-offs have been made, including the television series The Tom and Jerry Show (1975–77), The Tom and Jerry Comedy Show (1980–82), Tom &amp; Jerry Kids (1990–94), Tom and Jerry Tales (2006–08), and The Tom and Jerry Show (2014-present). The first feature-length film based on the series, Tom and Jerry: The Movie, was released in 1992 before ten direct-to-video films were produced between 2002 and 2013.Numerous Tom and Jerry shorts have been subject to controversy, mainly over racial stereotypes which involves the portrayal of the recurring black character Mammy Two Shoes and characters appearing in blackface. Other controversial themes include cannibalism and the glamorization of smoking.</p></div></div></div><div class="bangumi-pagination"><a class="bangumi-button bangumi-firstpage" href="javascript:;" target="_self" onclick="return false">首页</a><a class="bangumi-button bangumi-previouspage" href="javascript:;" target="_self" onclick="return false">上一页</a><span class="bangumi-pagenum">2 / 3</span><a class="bangumi-button bangumi-nextpage" href="javascript:;" target="_self" onclick="return false">下一页</a><a class="bangumi-button bangumi-lastpage" href="javascript:;" target="_self" onclick="return false">尾页</a></div></div></div><script>window.hexoBilibiliBangumiOptions = {
+    bangumiLazyload: true,
+    show: 2
+}
+if (true) {
+    hexoBilibiliBangumiOptions.pugTemplate = `.bangumi-item.bangumi-hide
+    .bangumi-picture
+        img(
+            src=('https:' + item.cover.replace(/^https:/, ''))
+            data-src=lazyload ? item.cover : null
+            referrerpolicy="no-referrer"
+            loading=lazyload ? "lazy" : "eager"
+            width="110"
+            style="width:110px;margin:20px auto;"
+        )
+    .bangumi-info
+        .bangumi-title
+            a(target="_blank" href='https://bangumi.tv/subject/' + item.id)= item.title || ('未知')
+        .bangumi-meta
+            span.bangumi-info-items(style=metaColor ? 'color:' + metaColor + ';' : '')
+                if item.totalCount
+                    span.bangumi-info-item
+                        span.bangumi-info-total= item.totalCount
+                        em.bangumi-info-label-em 0
+                span.bangumi-info-item.bangumi-type
+                    span.bangumi-info-label= ('类型')
+                    em= item.type
+                span.bangumi-info-item.bangumi-wish
+                    span.bangumi-info-label= ('想看')
+                    em= item.wish
+                span.bangumi-info-item.bangumi-doing
+                    span.bangumi-info-label= ('在看')
+                    em= item.doing || "-"
+                span.bangumi-info-item.bangumi-collect
+                    span.bangumi-info-label= ('已看')
+                    em= item.collect || "-"
+                span.bangumi-info-item.bangumi-info-item-score
+                    span.bangumi-info-label= ('评分')
+                    em= item.score || "-"
+        .bangumi-summary(style=color ? 'color:' + color + ';' : '')
+            p #{('简介')}：#{item.des || ('暂无简介')}
+    if showMyComment && (item.myComment || item.myStars)
+        .bangumi-comments(style=color ? 'color:' + color + ';' : '')
+            .bangumi-my-comments
+                | #{('我的评分')}：
+                if item.myStars
+                    span.bangumi-starstop
+                        span(class='bangumi-starlight stars' + item.myStars)
+                else
+                    | 暂无
+                br
+                | #{('我的评价')}：#{item.myComment || '暂无'}
+`;
+    hexoBilibiliBangumiOptions.pugOptions = {
+        loading: '',
+        metaColor: '#f2b94b',
+        type: 'bangumi',
+        color: '#6587b5',
+        lazyload: true,
+        showMyComment: false,
+        lazyloadAttrName: '',
+        srcValue: '__image__'
+    }
+    hexoBilibiliBangumiOptions.pagenumsPre = [0,0,1];
+    hexoBilibiliBangumiOptions.pug = require('pug');
+}</script><script>"use strict";/*
+ * @Author       : HCLonely
+ * @Date         : 2024-09-11 15:40:57
+ * @LastEditTime : 2025-07-09 20:36:01
+ * @LastEditors  : HCLonely
+ * @FilePath     : /hexo-bilibili-bangumi/src/lib/templates/index.js
+ * @Description  : 前端页面交互脚本，实现标签页切换和分页加载功能。
+ *                 包含自定义DOM操作方法、标签页点击事件处理，以及
+ *                 通过AJAX异步加载更多数据的分页功能。
+ */(function(){function a(){this.classList.add("bangumi-active");let a=this.siblings();for(let b=0;b<a.length;b++)a[b].classList.remove("bangumi-active");// 显示对应板块
+const b=this.id.replace("tab","item"),c=document.getElementById(b);c.classList.remove("bangumi-hide"),c.classList.add("bangumi-show"),a=document.getElementById(b).siblings();for(let b=0;b<a.length;b++)a[b].classList.remove("bangumi-show"),a[b].classList.add("bangumi-hide")}Element.prototype.siblings=function(){const a=[],b=this.parentNode.children;for(let c=0;c<b.length;c++)b[c]!==this&&a.push(b[c]);return a};const b=document.getElementsByClassName("bangumi-tab");for(let c=0;c<b.length;c++)b[c].onclick=a,b[c].onclick.apply(b[c]);"undefined"!=typeof hexoBilibiliBangumiOptions.pagenumsPre&&axios.get(new URL("../bangumis.json",window.location.href)).then(a=>{if(a.data){const b={wantWatch:a.data.wantWatch.slice(10).map(a=>hexoBilibiliBangumiOptions.pug.render(hexoBilibiliBangumiOptions.pugTemplate,{item:a,...hexoBilibiliBangumiOptions.pugOptions})).join("\n"),watching:a.data.watching.slice(10).map(a=>hexoBilibiliBangumiOptions.pug.render(hexoBilibiliBangumiOptions.pugTemplate,{item:a,...hexoBilibiliBangumiOptions.pugOptions})).join("\n"),watched:a.data.watched.slice(10).map(a=>hexoBilibiliBangumiOptions.pug.render(hexoBilibiliBangumiOptions.pugTemplate,{item:a,...hexoBilibiliBangumiOptions.pugOptions})).join("\n")};document.querySelectorAll("#bangumi-item1>.bangumi-pagination")[0].insertAdjacentHTML("beforeBegin",b.wantWatch),document.querySelectorAll("#bangumi-item2>.bangumi-pagination")[0].insertAdjacentHTML("beforeBegin",b.watching),document.querySelectorAll("#bangumi-item3>.bangumi-pagination")[0].insertAdjacentHTML("beforeBegin",b.watched)}}),document.getElementsByClassName("bangumi-tab")[hexoBilibiliBangumiOptions.show].click()})();"use strict";/*
+ * @Author       : HCLonely
+ * @Date         : 2024-09-11 15:40:57
+ * @LastEditTime : 2025-07-09 20:36:29
+ * @LastEditors  : HCLonely
+ * @FilePath     : /hexo-bilibili-bangumi/src/lib/templates/pagination.js
+ * @Description  : 分页功能实现脚本，提供首页、上一页、下一页、末页等导航功能。
+ *                 实现了页码显示、页面内容切换、图片懒加载等功能，每页显示10条数据，
+ *                 支持自定义预加载数据量配置。
+ */(function(){var a=Math.ceil;function b(b,c){return`${b+1} / ${a(0==c.length/10?1:a(c.length/10))}`}function c(){const a=this.parentNode.siblings();g(a,0),this.parentNode.getElementsByClassName("bangumi-pagenum")[0].innerText=b(0,a)}function d(){const a=this.parentNode.siblings();let c=this.parentNode.getElementsByClassName("bangumi-pagenum")[0].innerText;c=c.substr(0,c.indexOf("/")-1),c=parseInt(c,10)-1,0<c&&c--,g(a,c),this.parentNode.getElementsByClassName("bangumi-pagenum")[0].innerText=b(c,a)}function e(){const c=this.parentNode.siblings();let d=this.parentNode.getElementsByClassName("bangumi-pagenum")[0].innerText;d=d.substr(0,d.indexOf("/")-1),d=parseInt(d,10)-1,d<a(c.length/10)-1&&d++,g(c,d),this.parentNode.getElementsByClassName("bangumi-pagenum")[0].innerText=b(d,c)}function f(){const c=this.parentNode.siblings();g(c,a(c.length/10)-1),this.parentNode.getElementsByClassName("bangumi-pagenum")[0].innerText=b(-1==a(c.length/10)-1?0:a(c.length/10)-1,c)}function g(a,b){for(let c=0;c<a.length;c++)if(Math.floor(c/10)===b){a[c].classList.remove("bangumi-hide");const[b]=a[c].getElementsByTagName("img");hexoBilibiliBangumiOptions.bangumiLazyload&&(b.src=b.getAttribute("data-src"))}else a[c].classList.add("bangumi-hide")}const h=document.getElementsByClassName("bangumi-firstpage"),j=document.getElementsByClassName("bangumi-previouspage"),k=document.getElementsByClassName("bangumi-nextpage"),l=document.getElementsByClassName("bangumi-lastpage"),m=document.getElementsByClassName("bangumi-pagenum");for(let b=0;b<h.length;b++){h[b].onclick=c,j[b].onclick=d,k[b].onclick=e,l[b].onclick=f;// set page num
+const g="undefined"==typeof hexoBilibiliBangumiOptions.pagenumsPre?m[b].parentNode.siblings().length:hexoBilibiliBangumiOptions.pagenumsPre[b]??m[b].parentNode.siblings().length;h[b].click(),m[b].innerText=`1 / ${0===a(g/10)?1:a(g/10)}`}})();</script></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://b5dbf24.webp.li/icons/tx.jpg" onerror="this.onerror=null;this.src='/img/favicon.png'" alt="avatar"/></div><div class="author-info-name">Kaitumei</div><div class="author-info-description">个人博客网站，记录笔记与项目</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">6</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">7</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/kaitumei"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://qm.qq.com/q/OXzhqWfsoo" target="_blank" title="qq"><i class="fa-brands fa-qq" style="color: #24292e;"></i></a><a class="social-icon" href="https://space.bilibili.com/2002252637?spm_id_from=333.1007.0.0" target="_blank" title="bilibili"><i class="fa-brands fa-bilibili" style="color: #ffc0cb;"></i></a><a class="social-icon" href="https://github.com/kaitumei" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:kaitumei@163.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content"><center>这是一个记录学习与技术的博客，希望与各位一同进步与成长。</center></div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2026/02/05/hexo%E9%AD%94%E6%94%B9%E7%AF%87/" title="主题 Butterfly 5.5.4 魔改教程"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://b5dbf24.webp.li/hexo/butterfly.png" onerror="this.onerror=null;this.src='/img/favicon.png'" alt="主题 Butterfly 5.5.4 魔改教程"/></a><div class="content"><a class="title" href="/2026/02/05/hexo%E9%AD%94%E6%94%B9%E7%AF%87/" title="主题 Butterfly 5.5.4 魔改教程">主题 Butterfly 5.5.4 魔改教程</a><time datetime="2026-02-05T10:00:00.000Z" title="发表于 2026-02-05 10:00:00">2026-02-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/02/04/front-mateer%E8%AF%B4%E6%98%8E/" title="主题 Butterfly 5.5.4 基础教程"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://b5dbf24.webp.li/hexo/butterfly.png" onerror="this.onerror=null;this.src='/img/favicon.png'" alt="主题 Butterfly 5.5.4 基础教程"/></a><div class="content"><a class="title" href="/2026/02/04/front-mateer%E8%AF%B4%E6%98%8E/" title="主题 Butterfly 5.5.4 基础教程">主题 Butterfly 5.5.4 基础教程</a><time datetime="2026-02-04T15:04:07.000Z" title="发表于 2026-02-04 15:04:07">2026-02-04</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/02/02/%E4%BA%91%E5%8E%9F%E7%94%9F%E9%AB%98%E7%BA%A7%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0/" title="云原生-Linux的高级部分笔记"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://b5dbf24.webp.li/icons/yunyuansheng.png" onerror="this.onerror=null;this.src='/img/favicon.png'" alt="云原生-Linux的高级部分笔记"/></a><div class="content"><a class="title" href="/2026/02/02/%E4%BA%91%E5%8E%9F%E7%94%9F%E9%AB%98%E7%BA%A7%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0/" title="云原生-Linux的高级部分笔记">云原生-Linux的高级部分笔记</a><time datetime="2026-02-02T10:00:00.000Z" title="发表于 2026-02-02 10:00:00">2026-02-02</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/02/01/Con-Nav-Item%E5%AE%89%E8%A3%85%E6%8C%87%E5%8D%97/" title="搭建现代化浏览器导航站"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://b5dbf24.webp.li/icons/Con-Nav-Item.png" onerror="this.onerror=null;this.src='/img/favicon.png'" alt="搭建现代化浏览器导航站"/></a><div class="content"><a class="title" href="/2026/02/01/Con-Nav-Item%E5%AE%89%E8%A3%85%E6%8C%87%E5%8D%97/" title="搭建现代化浏览器导航站">搭建现代化浏览器导航站</a><time datetime="2026-02-01T20:48:00.000Z" title="发表于 2026-02-01 20:48:00">2026-02-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/02/01/PicGo%E5%9B%BE%E5%BA%8A%E6%90%AD%E5%BB%BA%E6%8C%87%E5%8D%97/" title="从零开始搭建图床"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://b5dbf24.webp.li/icons/tuchuang.gif" onerror="this.onerror=null;this.src='/img/favicon.png'" alt="从零开始搭建图床"/></a><div class="content"><a class="title" href="/2026/02/01/PicGo%E5%9B%BE%E5%BA%8A%E6%90%AD%E5%BB%BA%E6%8C%87%E5%8D%97/" title="从零开始搭建图床">从零开始搭建图床</a><time datetime="2026-02-01T20:48:00.000Z" title="发表于 2026-02-01 20:48:00">2026-02-01</time></div></div></div></div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站信息</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">6</div></div><div class="webinfo-item"><div class="item-name">运行时间 :</div><div class="item-count" id="runtimeshow" data-publishDate="2026-02-01T00:00:00.000Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站总字数 :</div><div class="item-count">44.6k</div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2026-02-06T16:39:07.308Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2026 By Kaitumei</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.4</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.4"></script><script src="/js/main.js?v=5.5.4"></script><script src="/js/tw_cn.js?v=5.5.4"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@5.2.0/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@19.1.3/dist/lazyload.iife.min.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.16/dist/snackbar.min.js"></script><div class="js-pjax"></div><script async src="/js/title.js"></script><script src="/js/card-welcome.js"></script><script>window.loaderConfig = { enable: true,  imageUrl: 'https://b5dbf24.webp.li/icons/404.gif',  text: '加载中...',  animationType: 'pulse', showProgress: true,  duration: 1000,  darkMode: false  };</script><script async src="/js/custom-loader.js"></script><script async src="/js/custom-nav.js"></script><script src="/js/custom.js"></script><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script><script async src="//npm.elemecdn.com/pace-js@1.2.4/pace.min.js"></script><script async src="/js/categoryBar.js"></script><div id="nav-music"><meting-js id="2301697552" server="netease" type="playlist" mutex="true" preload="none" theme="#49b1f5" data-lrrc-type="0" order="random" list-folded="true"></meting-js></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/metingjs/dist/Meting.min.js"></script><script>(() => {
+  const destroyAplayer = () => {
+    if (window.aplayers) {
+      for (let i = 0; i < window.aplayers.length; i++) {
+        if (!window.aplayers[i].options.fixed) {
+          window.aplayers[i].destroy()
+        }
+      }
+    }
+  }
+
+  const runMetingJS = () => {
+    typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+  }
+
+  btf.addGlobalFn('pjaxSend', destroyAplayer, 'destroyAplayer')
+  btf.addGlobalFn('pjaxComplete', loadMeting, 'runMetingJS')
+})()</script><script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.min.js" defer="defer"></script><script>document.addEventListener('DOMContentLoaded', () => {
+  const pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+  window.pjax = new Pjax({
+    elements: 'a:not([target="_blank"])',
+    selectors: pjaxSelectors,
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+  })
+
+  const triggerPjaxFn = (val) => {
+    if (!val) return
+    Object.values(val).forEach(fn => {
+      try {
+        fn()
+      } catch (err) {
+        console.debug('Pjax callback failed:', err)
+      }
+    })
+  }
+
+  document.addEventListener('pjax:send', () => {
+    // removeEventListener
+    btf.removeGlobalFnEvent('pjaxSendOnce')
+    btf.removeGlobalFnEvent('themeChange')
+
+    // reset readmode
+    const $bodyClassList = document.body.classList
+    if ($bodyClassList.contains('read-mode')) $bodyClassList.remove('read-mode')
+
+    triggerPjaxFn(window.globalFn.pjaxSend)
+  })
+
+  document.addEventListener('pjax:complete', () => {
+    btf.removeGlobalFnEvent('pjaxCompleteOnce')
+    document.querySelectorAll('script[data-pjax]').forEach(item => {
+      const newScript = document.createElement('script')
+      const content = item.text || item.textContent || item.innerHTML || ""
+      Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+      newScript.appendChild(document.createTextNode(content))
+      item.parentNode.replaceChild(newScript, item)
+    })
+
+    triggerPjaxFn(window.globalFn.pjaxComplete)
+  })
+
+  document.addEventListener('pjax:error', e => {
+    if (e.request.status === 404) {
+      true
+        ? pjax.loadUrl('/404.html')
+        : window.location.href = e.request.responseURL
+    }
+  })
+})</script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="local-search-input"><input placeholder="🔍搜索本站内容" type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=5.5.4"></script></div></div><script>const posts = ["2026/02/01/Con-Nav-Item安装指南/","2026/02/01/PicGo图床搭建指南/","2026/02/01/RHCE课程笔记/","2026/02/04/front-mateer说明/","2026/02/05/hexo魔改篇/","2026/02/02/云原生高级课程笔记/"]
+function toRandomPost() {
+  const randomPost = posts[Math.floor(Math.random() * posts.length)];
+  const randomUrl = '/' + randomPost;
+  window.pjax ? pjax.loadUrl(randomUrl) : window.open(randomUrl, '_self');
+}</script><!-- hexo injector body_end start --><script data-pjax>
+  function butterfly_swiper_injector_config(){
+    var parent_div_git = document.getElementById('recent-posts');
+    var item_html = '<div class="recent-post-item" style="height: auto;width: 100%"><div class="blog-slider swiper-container-fade swiper-container-horizontal" id="swiper_container"><div class="blog-slider__wrp swiper-wrapper" style="transition-duration: 0ms;"><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;2026/02/01/PicGo图床搭建指南/&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://b5dbf24.webp.li/icons/tuchuang.gif" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2026-02-01</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;2026/02/01/PicGo图床搭建指南/&quot;);" href="javascript:void(0);" alt="">从零开始搭建图床</a><div class="blog-slider__text">再怎么看我也不知道怎么描述它的啦！</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;2026/02/01/PicGo图床搭建指南/&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;2026/02/01/Con-Nav-Item安装指南/&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://b5dbf24.webp.li/icons/Con-Nav-Item.png" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2026-02-01</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;2026/02/01/Con-Nav-Item安装指南/&quot;);" href="javascript:void(0);" alt="">搭建现代化浏览器导航站</a><div class="blog-slider__text">再怎么看我也不知道怎么描述它的啦！</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;2026/02/01/Con-Nav-Item安装指南/&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div></div><div class="blog-slider__pagination swiper-pagination-clickable swiper-pagination-bullets"></div></div></div>';
+    console.log('已挂载butterfly_swiper')
+    parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  var elist = 'undefined'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_swiper_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_swiper_injector_config();
+  }
+  </script><script defer src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.js"></script><script defer data-pjax src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper_init.js"></script><script async src="//at.alicdn.com/t/font_2032782_8d5kxvn09md.js"></script><!-- hexo injector body_end end --></body></html>
