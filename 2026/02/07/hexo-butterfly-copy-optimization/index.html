@@ -1,0 +1,349 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Hexo Butterfly 主题美化：自定义复制提示与增强兼容性 | Yumi-an</title><meta name="author" content="Kaitumei,zhangsan@example.com"><meta name="copyright" content="Kaitumei"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="统一博客的复制体验，自定义萌萌的提示文案，并修复浏览器兼容性问题。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo Butterfly 主题美化：自定义复制提示与增强兼容性">
+<meta property="og:url" content="http://kaitumei.2345.plus/2026/02/07/hexo-butterfly-copy-optimization/index.html">
+<meta property="og:site_name" content="Yumi-an">
+<meta property="og:description" content="统一博客的复制体验，自定义萌萌的提示文案，并修复浏览器兼容性问题。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img.kaitumei.com/i/2025/02/07/67a5b3f2e1b4a.png">
+<meta property="article:published_time" content="2026-02-07T15:30:00.000Z">
+<meta property="article:modified_time" content="2026-02-06T18:13:59.761Z">
+<meta property="article:author" content="Kaitumei">
+<meta property="article:tag" content="Hexo">
+<meta property="article:tag" content="Butterfly">
+<meta property="article:tag" content="美化">
+<meta property="article:tag" content="JavaScript">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img.kaitumei.com/i/2025/02/07/67a5b3f2e1b4a.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Hexo Butterfly 主题美化：自定义复制提示与增强兼容性",
+  "url": "http://kaitumei.2345.plus/2026/02/07/hexo-butterfly-copy-optimization/",
+  "image": "https://img.kaitumei.com/i/2025/02/07/67a5b3f2e1b4a.png",
+  "datePublished": "2026-02-07T15:30:00.000Z",
+  "dateModified": "2026-02-06T18:13:59.761Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Kaitumei",
+      "url": "https://kaitumei.2345.plus"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://kaitumei.2345.plus/2026/02/07/hexo-butterfly-copy-optimization/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="stylesheet" href="/css/index.css?v=5.5.4"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.16/dist/snackbar.min.css" media="print" onload="this.media='all'"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!true && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":false,"pagination":{"enable":true,"hitsPerPage":8},"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '😊 复制成功！转载请注明出处哦~',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: {"chs_to_cht":"已切换为繁体中文","cht_to_chs":"已切换为简体中文","day_to_night":"已切换为深色模式","night_to_day":"已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"top-center"},
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.13.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: true,
+  isAnchor: true,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Hexo Butterfly 主题美化：自定义复制提示与增强兼容性',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><link rel="stylesheet" href="//at.alicdn.com/t/c/font_5123065_4n25ghac77s.css"><link rel="stylesheet" href="/css/custom-loader.css"><link rel="stylesheet" href="/css/custom-nav.css"><link rel="stylesheet" href="/css/custom.css"><link rel="stylesheet" href="https://npm.elemecdn.com/lxgw-wenkai-screen-webfont/style.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="/css/custom-music.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css"><link rel="stylesheet" href="/css/progress_bar.css"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/js-heo@1.0.11/categoryBar/categoryBar.css"><!-- hexo injector head_end start --><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiperstyle.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/font-awesome-animation.min.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/tag_plugins.css" media="defer" onload="this.media='all'"><script src="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/carousel-touch.js"></script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"></head><body><div class="bg-animation" id="web_bg" style="background-image: url(https://b5dbf24.webp.li/icons/nini.png);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://b5dbf24.webp.li/icons/tx.jpg" onerror="this.onerror=null;this.src='/img/favicon.png'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">8</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">13</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><div class="menus_items visible"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><span class="site-page group hide"><i class="fa-fw fas fa-book"></i><span> 文章</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li></ul></div><div class="menus_item"><span class="site-page group hide"><i class="fa-fw iconfont icon-fenxiang"></i><span> 分享</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/resources/"><i class="fa-fw iconfont icon-diannao"></i><span> 资源</span></a></li></ul></div><div class="menus_item"><span class="site-page group hide"><i class="fa-fw iconfont icon-baoxiang-"></i><span> 藏宝阁</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></li><li><a class="site-page child" href="/project/"><i class="fa-fw iconfont icon-xiangmu"></i><span> 项目</span></a></li></ul></div><div class="menus_item"><span class="site-page group hide"><i class="fa-fw iconfont icon-xianhuaduihuanquan"></i><span> 百宝袋</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/play/animei/"><i class="fa-fw iconfont icon-bilibili"></i><span> 追番</span></a></li><li><a class="site-page child" href="/play/games/"><i class="fa-fw iconfont icon-youxi"></i><span> 游戏</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-user"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg fixed" id="page-header" style="background-image: url(https://img.kaitumei.com/i/2025/02/07/67a5b3f2e1b4a.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/" title="Yumi-an"><span class="site-name">Yumi-an</span></a></span><div id="menus"><div class="menus_items visible"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><span class="site-page group hide"><i class="fa-fw fas fa-book"></i><span> 文章</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li></ul></div><div class="menus_item"><span class="site-page group hide"><i class="fa-fw iconfont icon-fenxiang"></i><span> 分享</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/resources/"><i class="fa-fw iconfont icon-diannao"></i><span> 资源</span></a></li></ul></div><div class="menus_item"><span class="site-page group hide"><i class="fa-fw iconfont icon-baoxiang-"></i><span> 藏宝阁</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></li><li><a class="site-page child" href="/project/"><i class="fa-fw iconfont icon-xiangmu"></i><span> 项目</span></a></li></ul></div><div class="menus_item"><span class="site-page group hide"><i class="fa-fw iconfont icon-xianhuaduihuanquan"></i><span> 百宝袋</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/play/animei/"><i class="fa-fw iconfont icon-bilibili"></i><span> 追番</span></a></li><li><a class="site-page child" href="/play/games/"><i class="fa-fw iconfont icon-youxi"></i><span> 游戏</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-user"></i><span> 关于</span></a></div></div></div><div id="name-container"><a id="page-name" href="javascript:btf.scrollToDest(0, 500)">PAGE_NAME</a></div><div id="nav-right"><div id="travellings"><a class="site-page" href="https://www.travellings.cn/go.html" title="友链接力-随机开往" target="_blank" rel="noopener"><i class="fa-solid fa-bus fa-fw"></i></a></div><div id="ten-years"><a class="site-page" href="https://foreverblog.cn/go.html" title="友链接力-十年之约" target="_blank" rel="noopener"><i class="fa-brands fa-nfc-symbol fa-fw"></i></a></div><div id="random"><a class="site-page" href="javascript:toRandomPost()" title="随机前往一个文章"><i class="fa-solid fa-shuffle fa-fw"></i></a></div><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);" title="站内搜索"><i class="fas fa-search fa-fw"></i></a></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);" title="展开菜单"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Hexo Butterfly 主题美化：自定义复制提示与增强兼容性</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-02-07T15:30:00.000Z" title="发表于 2026-02-07 15:30:00">2026-02-07</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-02-06T18:13:59.761Z" title="更新于 2026-02-06 18:13:59">2026-02-06</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Hexo/">Hexo</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">841</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>3分钟</span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><div id="post-outdate-notice" data="{&quot;limitDay&quot;:365,&quot;messagePrev&quot;:&quot;It has been&quot;,&quot;messageNext&quot;:&quot;days since the last update, the content of the article may be outdated.&quot;,&quot;postUpdate&quot;:&quot;2026-02-06 18:13:59&quot;}" hidden></div><p>在使用 Hexo Butterfly 主题时，默认的复制提示比较单调。本文记录了如何将复制提示修改为 “😊 复制成功！转载请注明出处哦~”，并解决代码块复制时的兼容性问题，以及统一普通文本复制时的提示效果。</p>
+<h2 id="1-修改提示文案"><a href="#1-修改提示文案" class="headerlink" title="1. 修改提示文案"></a>1. 修改提示文案</h2><p>首先，我们需要修改主题的语言文件，将默认的 “复制成功” 修改为我们喜欢的文案。</p>
+<p>编辑文件：<code>themes/butterfly/languages/zh-CN.yml</code></p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">copy:</span></span><br><span class="line">  <span class="attr">success:</span> <span class="string">😊</span> <span class="string">复制成功！转载请注明出处哦~</span>  <span class="comment"># 修改这里</span></span><br><span class="line">  <span class="attr">error:</span> <span class="string">复制失败</span></span><br><span class="line">  <span class="attr">noSupport:</span> <span class="string">浏览器不支持</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="2-增强-JS-逻辑-themes-butterfly-source-js-main-js"><a href="#2-增强-JS-逻辑-themes-butterfly-source-js-main-js" class="headerlink" title="2. 增强 JS 逻辑 (themes&#x2F;butterfly&#x2F;source&#x2F;js&#x2F;main.js)"></a>2. 增强 JS 逻辑 (themes&#x2F;butterfly&#x2F;source&#x2F;js&#x2F;main.js)</h2><p>为了实现更好的体验，我们需要修改 <code>main.js</code> 文件。主要解决两个问题：</p>
+<ol>
+<li><strong>兼容性</strong>：部分浏览器不支持新的 Clipboard API，需要回退方案。</li>
+<li><strong>统一体验</strong>：让普通文本复制（Ctrl+C）也能弹出漂亮的提示。</li>
+<li><strong>修复Bug</strong>：防止代码块复制时同时触发两次提示（一次代码块逻辑，一次全局监听）。</li>
+</ol>
+<h3 id="修改代码块复制逻辑-copy-函数"><a href="#修改代码块复制逻辑-copy-函数" class="headerlink" title="修改代码块复制逻辑 (copy 函数)"></a>修改代码块复制逻辑 (<code>copy</code> 函数)</h3><p>找到 <code>const copy = async (text, ctx) =&gt; &#123;</code>，将其替换为以下内容：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title function_">copy</span> = <span class="keyword">async</span> (<span class="params">text, ctx</span>) =&gt; &#123;</span><br><span class="line">  <span class="comment">// 设置标志位，防止触发全局的 copy 事件监听，避免双重提示</span></span><br><span class="line">  <span class="variable language_">window</span>.<span class="property">isCodeCopy</span> = <span class="literal">true</span></span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="comment">// 优先使用现代 Clipboard API</span></span><br><span class="line">    <span class="keyword">if</span> (navigator.<span class="property">clipboard</span> &amp;&amp; navigator.<span class="property">clipboard</span>.<span class="property">writeText</span>) &#123;</span><br><span class="line">      <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">await</span> navigator.<span class="property">clipboard</span>.<span class="title function_">writeText</span>(text)</span><br><span class="line">        <span class="title function_">alertInfo</span>(ctx, <span class="variable constant_">GLOBAL_CONFIG</span>.<span class="property">copy</span>.<span class="property">success</span>)</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">      &#125; <span class="keyword">catch</span> (err) &#123;</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">error</span>(<span class="string">&#x27;Failed to copy via clipboard API: &#x27;</span>, err)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 兼容性回退方案：创建一个隐藏的 textarea 进行复制</span></span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">      <span class="keyword">const</span> textArea = <span class="variable language_">document</span>.<span class="title function_">createElement</span>(<span class="string">&#x27;textarea&#x27;</span>)</span><br><span class="line">      textArea.<span class="property">value</span> = text</span><br><span class="line">      <span class="comment">// 确保 textarea 不可见但存在于 DOM 中</span></span><br><span class="line">      textArea.<span class="property">style</span>.<span class="property">position</span> = <span class="string">&#x27;fixed&#x27;</span></span><br><span class="line">      textArea.<span class="property">style</span>.<span class="property">left</span> = <span class="string">&#x27;-9999px&#x27;</span></span><br><span class="line">      textArea.<span class="property">style</span>.<span class="property">top</span> = <span class="string">&#x27;0&#x27;</span></span><br><span class="line">      <span class="variable language_">document</span>.<span class="property">body</span>.<span class="title function_">appendChild</span>(textArea)</span><br><span class="line">      textArea.<span class="title function_">focus</span>()</span><br><span class="line">      textArea.<span class="title function_">select</span>()</span><br><span class="line">      <span class="keyword">const</span> successful = <span class="variable language_">document</span>.<span class="title function_">execCommand</span>(<span class="string">&#x27;copy&#x27;</span>)</span><br><span class="line">      <span class="variable language_">document</span>.<span class="property">body</span>.<span class="title function_">removeChild</span>(textArea)</span><br><span class="line">      <span class="keyword">if</span> (successful) &#123;</span><br><span class="line">        <span class="title function_">alertInfo</span>(ctx, <span class="variable constant_">GLOBAL_CONFIG</span>.<span class="property">copy</span>.<span class="property">success</span>)</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="title function_">alertInfo</span>(ctx, <span class="variable constant_">GLOBAL_CONFIG</span>.<span class="property">copy</span>.<span class="property">noSupport</span>)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (err) &#123;</span><br><span class="line">      <span class="variable language_">console</span>.<span class="title function_">error</span>(<span class="string">&#x27;Fallback copy failed: &#x27;</span>, err)</span><br><span class="line">      <span class="title function_">alertInfo</span>(ctx, <span class="variable constant_">GLOBAL_CONFIG</span>.<span class="property">copy</span>.<span class="property">noSupport</span>)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">    <span class="comment">// 恢复标志位</span></span><br><span class="line">    <span class="variable language_">window</span>.<span class="property">isCodeCopy</span> = <span class="literal">false</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="修改全局复制监听-addCopyright-函数"><a href="#修改全局复制监听-addCopyright-函数" class="headerlink" title="修改全局复制监听 (addCopyright 函数)"></a>修改全局复制监听 (<code>addCopyright</code> 函数)</h3><p>找到 <code>const addCopyright = () =&gt; &#123;</code>，更新 <code>handleCopy</code> 逻辑：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title function_">addCopyright</span> = (<span class="params"></span>) =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> &#123; limitCount, languages &#125; = <span class="variable constant_">GLOBAL_CONFIG</span>.<span class="property">copyright</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> <span class="title function_">handleCopy</span> = e =&gt; &#123;</span><br><span class="line">    <span class="comment">// 如果是代码块复制引起的 copy 事件，直接返回，不处理</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="variable language_">window</span>.<span class="property">isCodeCopy</span>) <span class="keyword">return</span></span><br><span class="line"></span><br><span class="line">    e.<span class="title function_">preventDefault</span>()</span><br><span class="line">    <span class="keyword">const</span> copyFont = <span class="variable language_">window</span>.<span class="title function_">getSelection</span>(<span class="number">0</span>).<span class="title function_">toString</span>()</span><br><span class="line">    <span class="keyword">let</span> textFont = copyFont</span><br><span class="line">    <span class="keyword">if</span> (copyFont.<span class="property">length</span> &gt; limitCount) &#123;</span><br><span class="line">      textFont = <span class="string">`<span class="subst">$&#123;copyFont&#125;</span>\n\n\n<span class="subst">$&#123;languages.author&#125;</span>\n<span class="subst">$&#123;languages.link&#125;</span><span class="subst">$&#123;<span class="variable language_">window</span>.location.href&#125;</span>\n<span class="subst">$&#123;languages.source&#125;</span>\n<span class="subst">$&#123;languages.info&#125;</span>`</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (e.<span class="property">clipboardData</span>) &#123;</span><br><span class="line">      e.<span class="property">clipboardData</span>.<span class="title function_">setData</span>(<span class="string">&#x27;text&#x27;</span>, textFont)</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="variable language_">window</span>.<span class="property">clipboardData</span>.<span class="title function_">setData</span>(<span class="string">&#x27;text&#x27;</span>, textFont)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 显示复制成功的提示 (使用 Butterfly 内置的 Snackbar 或 fallback)</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="variable constant_">GLOBAL_CONFIG</span>.<span class="property">Snackbar</span> !== <span class="literal">undefined</span>) &#123;</span><br><span class="line">      btf.<span class="title function_">snackbarShow</span>(<span class="variable constant_">GLOBAL_CONFIG</span>.<span class="property">copy</span>.<span class="property">success</span>)</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="comment">// 如果没有开启 Snackbar，手动创建一个 toast</span></span><br><span class="line">      <span class="keyword">const</span> newEle = <span class="variable language_">document</span>.<span class="title function_">createElement</span>(<span class="string">&#x27;div&#x27;</span>)</span><br><span class="line">      newEle.<span class="property">className</span> = <span class="string">&#x27;copy-notice&#x27;</span></span><br><span class="line">      newEle.<span class="property">textContent</span> = <span class="variable constant_">GLOBAL_CONFIG</span>.<span class="property">copy</span>.<span class="property">success</span></span><br><span class="line">      newEle.<span class="property">style</span>.<span class="property">cssText</span> = <span class="string">&#x27;position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 9999; background: #49b1f5; color: #fff; padding: 10px 20px; border-radius: 4px;&#x27;</span></span><br><span class="line">      <span class="variable language_">document</span>.<span class="property">body</span>.<span class="title function_">appendChild</span>(newEle)</span><br><span class="line">      <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">        newEle.<span class="title function_">remove</span>()</span><br><span class="line">      &#125;, <span class="number">2000</span>)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="variable language_">document</span>.<span class="property">body</span>.<span class="title function_">addEventListener</span>(<span class="string">&#x27;copy&#x27;</span>, handleCopy)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-总结"><a href="#3-总结" class="headerlink" title="3. 总结"></a>3. 总结</h2><p>通过以上修改，我们实现了：</p>
+<ol>
+<li>自定义了复制成功的提示文案。</li>
+<li>在任意位置复制文本都会弹出提示。</li>
+<li>解决了代码块复制时的兼容性问题。</li>
+<li>完美解决了代码块复制时提示出现两次的 Bug。</li>
+</ol>
+<p>快去试试吧！</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://kaitumei.2345.plus">Kaitumei</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://kaitumei.2345.plus/2026/02/07/hexo-butterfly-copy-optimization/">http://kaitumei.2345.plus/2026/02/07/hexo-butterfly-copy-optimization/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="http://kaitumei.2345.plus" target="_blank">Yumi-an</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Hexo/">Hexo</a><a class="post-meta__tags" href="/tags/Butterfly/">Butterfly</a><a class="post-meta__tags" href="/tags/%E7%BE%8E%E5%8C%96/">美化</a><a class="post-meta__tags" href="/tags/JavaScript/">JavaScript</a></div><div class="post-share"><div class="social-share" data-image="https://img.kaitumei.com/i/2025/02/07/67a5b3f2e1b4a.png" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related  no-desc" href="/2026/02/05/hexo%E9%AD%94%E6%94%B9%E7%AF%87/" title="主题 Butterfly 5.5.4 魔改教程"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://b5dbf24.webp.li/hexo/butterfly.png" onerror="onerror=null;src='/img/favicon.png'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">主题 Butterfly 5.5.4 魔改教程</div></div></div></a><a class="pagination-related" href="/2026/02/07/hexo-deployment-troubleshooting/" title="Hexo博客进阶：自动化部署与采坑实录"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.kaitumei.com/default_cover.jpg" onerror="onerror=null;src='/img/favicon.png'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">Hexo博客进阶：自动化部署与采坑实录</div></div><div class="info-2"><div class="info-item-1">记录 Hexo 博客搭建过程中遇到的自动化部署双仓库权限问题、Butterfly 主题欢迎卡片优化以及自定义域名重置问题的终极解决方案。</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2026/02/07/hexo-deployment-troubleshooting/" title="Hexo博客进阶：自动化部署与采坑实录"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.kaitumei.com/default_cover.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-02-07</div><div class="info-item-2">Hexo博客进阶：自动化部署与采坑实录</div></div><div class="info-2"><div class="info-item-1">记录 Hexo 博客搭建过程中遇到的自动化部署双仓库权限问题、Butterfly 主题欢迎卡片优化以及自定义域名重置问题的终极解决方案。</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="twikoo-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://b5dbf24.webp.li/icons/tx.jpg" onerror="this.onerror=null;this.src='/img/favicon.png'" alt="avatar"/></div><div class="author-info-name">Kaitumei</div><div class="author-info-description">个人博客网站，记录笔记与项目</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">8</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">13</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/kaitumei"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://qm.qq.com/q/OXzhqWfsoo" target="_blank" title="qq"><i class="fa-brands fa-qq" style="color: #24292e;"></i></a><a class="social-icon" href="https://space.bilibili.com/2002252637?spm_id_from=333.1007.0.0" target="_blank" title="bilibili"><i class="fa-brands fa-bilibili" style="color: #ffc0cb;"></i></a><a class="social-icon" href="https://github.com/kaitumei" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:kaitumei@163.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content"><center>这是一个记录学习与技术的博客，希望与各位一同进步与成长。</center></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E4%BF%AE%E6%94%B9%E6%8F%90%E7%A4%BA%E6%96%87%E6%A1%88"><span class="toc-number">1.</span> <span class="toc-text">1. 修改提示文案</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E5%A2%9E%E5%BC%BA-JS-%E9%80%BB%E8%BE%91-themes-butterfly-source-js-main-js"><span class="toc-number">2.</span> <span class="toc-text">2. 增强 JS 逻辑 (themes&#x2F;butterfly&#x2F;source&#x2F;js&#x2F;main.js)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9%E4%BB%A3%E7%A0%81%E5%9D%97%E5%A4%8D%E5%88%B6%E9%80%BB%E8%BE%91-copy-%E5%87%BD%E6%95%B0"><span class="toc-number">2.1.</span> <span class="toc-text">修改代码块复制逻辑 (copy 函数)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9%E5%85%A8%E5%B1%80%E5%A4%8D%E5%88%B6%E7%9B%91%E5%90%AC-addCopyright-%E5%87%BD%E6%95%B0"><span class="toc-number">2.2.</span> <span class="toc-text">修改全局复制监听 (addCopyright 函数)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E6%80%BB%E7%BB%93"><span class="toc-number">3.</span> <span class="toc-text">3. 总结</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2026/02/07/hexo-deployment-troubleshooting/" title="Hexo博客进阶：自动化部署与采坑实录"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.kaitumei.com/default_cover.jpg" onerror="this.onerror=null;this.src='/img/favicon.png'" alt="Hexo博客进阶：自动化部署与采坑实录"/></a><div class="content"><a class="title" href="/2026/02/07/hexo-deployment-troubleshooting/" title="Hexo博客进阶：自动化部署与采坑实录">Hexo博客进阶：自动化部署与采坑实录</a><time datetime="2026-02-07T16:30:00.000Z" title="发表于 2026-02-07 16:30:00">2026-02-07</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/02/07/hexo-butterfly-copy-optimization/" title="Hexo Butterfly 主题美化：自定义复制提示与增强兼容性"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.kaitumei.com/i/2025/02/07/67a5b3f2e1b4a.png" onerror="this.onerror=null;this.src='/img/favicon.png'" alt="Hexo Butterfly 主题美化：自定义复制提示与增强兼容性"/></a><div class="content"><a class="title" href="/2026/02/07/hexo-butterfly-copy-optimization/" title="Hexo Butterfly 主题美化：自定义复制提示与增强兼容性">Hexo Butterfly 主题美化：自定义复制提示与增强兼容性</a><time datetime="2026-02-07T15:30:00.000Z" title="发表于 2026-02-07 15:30:00">2026-02-07</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/02/05/hexo%E9%AD%94%E6%94%B9%E7%AF%87/" title="主题 Butterfly 5.5.4 魔改教程"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://b5dbf24.webp.li/hexo/butterfly.png" onerror="this.onerror=null;this.src='/img/favicon.png'" alt="主题 Butterfly 5.5.4 魔改教程"/></a><div class="content"><a class="title" href="/2026/02/05/hexo%E9%AD%94%E6%94%B9%E7%AF%87/" title="主题 Butterfly 5.5.4 魔改教程">主题 Butterfly 5.5.4 魔改教程</a><time datetime="2026-02-05T10:00:00.000Z" title="发表于 2026-02-05 10:00:00">2026-02-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/02/04/front-mateer%E8%AF%B4%E6%98%8E/" title="主题 Butterfly 5.5.4 基础教程"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://b5dbf24.webp.li/hexo/butterfly.png" onerror="this.onerror=null;this.src='/img/favicon.png'" alt="主题 Butterfly 5.5.4 基础教程"/></a><div class="content"><a class="title" href="/2026/02/04/front-mateer%E8%AF%B4%E6%98%8E/" title="主题 Butterfly 5.5.4 基础教程">主题 Butterfly 5.5.4 基础教程</a><time datetime="2026-02-04T15:04:07.000Z" title="发表于 2026-02-04 15:04:07">2026-02-04</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/02/02/%E4%BA%91%E5%8E%9F%E7%94%9F%E9%AB%98%E7%BA%A7%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0/" title="云原生-Linux的高级部分笔记"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://b5dbf24.webp.li/icons/yunyuansheng.png" onerror="this.onerror=null;this.src='/img/favicon.png'" alt="云原生-Linux的高级部分笔记"/></a><div class="content"><a class="title" href="/2026/02/02/%E4%BA%91%E5%8E%9F%E7%94%9F%E9%AB%98%E7%BA%A7%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0/" title="云原生-Linux的高级部分笔记">云原生-Linux的高级部分笔记</a><time datetime="2026-02-02T10:00:00.000Z" title="发表于 2026-02-02 10:00:00">2026-02-02</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2026 By Kaitumei</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.4</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.4"></script><script src="/js/main.js?v=5.5.4"></script><script src="/js/tw_cn.js?v=5.5.4"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@5.2.0/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@19.1.3/dist/lazyload.iife.min.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.16/dist/snackbar.min.js"></script><div class="js-pjax"><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = {"placeholder":"欢迎留言，支持Markdown语法，快来评论吧~"}
+
+  const getCount = () => {
+    const countELement = document.getElementById('twikoo-count')
+    if(!countELement) return
+    twikoo.getCommentsCount({
+      envId: 'https://twikoojs-cyan.vercel.app/',
+      region: '',
+      urls: [window.location.pathname],
+      includeReply: false
+    }).then(res => {
+      countELement.textContent = res[0].count
+    }).catch(err => {
+      console.error(err)
+    })
+  }
+
+  const init = (el = document, path = location.pathname) => {
+    twikoo.init({
+      el: el.querySelector('#twikoo-wrap'),
+      envId: 'https://twikoojs-cyan.vercel.app/',
+      region: '',
+      onCommentLoaded: () => {
+        btf.loadLightbox(document.querySelectorAll('#twikoo .tk-content img:not(.tk-owo-emotion)'))
+      },
+      ...option,
+      path: isShuoshuo ? path : (option && option.path) || path
+    })
+
+    
+
+    isShuoshuo && (window.shuoshuoComment.destroyTwikoo = () => {
+      if (el.children.length) {
+        el.innerHTML = ''
+        el.classList.add('no-comment')
+      }
+    })
+  }
+
+  const loadTwikoo = (el, path) => {
+    if (typeof twikoo === 'object') setTimeout(() => init(el, path), 0)
+    else btf.getScript('https://cdn.jsdelivr.net/npm/twikoo@1.6.44/dist/twikoo.all.min.js').then(() => init(el, path))
+  }
+
+  if (isShuoshuo) {
+    'Twikoo' === 'Twikoo'
+      ? window.shuoshuoComment = { loadComment: loadTwikoo }
+      : window.loadOtherComment = loadTwikoo
+    return
+  }
+
+  if ('Twikoo' === 'Twikoo' || !false) {
+    if (false) btf.loadComment(document.getElementById('twikoo-wrap'), loadTwikoo)
+    else loadTwikoo()
+  } else {
+    window.loadOtherComment = loadTwikoo
+  }
+})()</script></div><script async src="/js/title.js"></script><script src="/js/card-welcome.js"></script><script>window.loaderConfig = { enable: true,  imageUrl: 'https://b5dbf24.webp.li/icons/404.gif',  text: '加载中...',  animationType: 'pulse', showProgress: true,  duration: 1000,  darkMode: false  };</script><script async src="/js/custom-loader.js"></script><script async src="/js/custom-nav.js"></script><script src="/js/custom.js"></script><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script><script async src="//npm.elemecdn.com/pace-js@1.2.4/pace.min.js"></script><script async src="/js/categoryBar.js"></script><div id="nav-music"><meting-js id="2301697552" server="netease" type="playlist" mutex="true" preload="none" theme="#49b1f5" data-lrrc-type="0" order="random" list-folded="true"></meting-js></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/metingjs/dist/Meting.min.js"></script><script>(() => {
+  const destroyAplayer = () => {
+    if (window.aplayers) {
+      for (let i = 0; i < window.aplayers.length; i++) {
+        if (!window.aplayers[i].options.fixed) {
+          window.aplayers[i].destroy()
+        }
+      }
+    }
+  }
+
+  const runMetingJS = () => {
+    typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+  }
+
+  btf.addGlobalFn('pjaxSend', destroyAplayer, 'destroyAplayer')
+  btf.addGlobalFn('pjaxComplete', loadMeting, 'runMetingJS')
+})()</script><script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.min.js" defer="defer"></script><script>document.addEventListener('DOMContentLoaded', () => {
+  const pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+  window.pjax = new Pjax({
+    elements: 'a:not([target="_blank"])',
+    selectors: pjaxSelectors,
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+  })
+
+  const triggerPjaxFn = (val) => {
+    if (!val) return
+    Object.values(val).forEach(fn => {
+      try {
+        fn()
+      } catch (err) {
+        console.debug('Pjax callback failed:', err)
+      }
+    })
+  }
+
+  document.addEventListener('pjax:send', () => {
+    // removeEventListener
+    btf.removeGlobalFnEvent('pjaxSendOnce')
+    btf.removeGlobalFnEvent('themeChange')
+
+    // reset readmode
+    const $bodyClassList = document.body.classList
+    if ($bodyClassList.contains('read-mode')) $bodyClassList.remove('read-mode')
+
+    triggerPjaxFn(window.globalFn.pjaxSend)
+  })
+
+  document.addEventListener('pjax:complete', () => {
+    btf.removeGlobalFnEvent('pjaxCompleteOnce')
+    document.querySelectorAll('script[data-pjax]').forEach(item => {
+      const newScript = document.createElement('script')
+      const content = item.text || item.textContent || item.innerHTML || ""
+      Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+      newScript.appendChild(document.createTextNode(content))
+      item.parentNode.replaceChild(newScript, item)
+    })
+
+    triggerPjaxFn(window.globalFn.pjaxComplete)
+  })
+
+  document.addEventListener('pjax:error', e => {
+    if (e.request.status === 404) {
+      true
+        ? pjax.loadUrl('/404.html')
+        : window.location.href = e.request.responseURL
+    }
+  })
+})</script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="local-search-input"><input placeholder="🔍搜索本站内容" type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=5.5.4"></script></div></div><script>const posts = ["2026/02/01/Con-Nav-Item安装指南/","2026/02/01/PicGo图床搭建指南/","2026/02/01/RHCE课程笔记/","2026/02/04/front-mateer说明/","2026/02/07/hexo-butterfly-copy-optimization/","2026/02/07/hexo-deployment-troubleshooting/","2026/02/02/云原生高级课程笔记/","2026/02/05/hexo魔改篇/"]
+function toRandomPost() {
+  const randomPost = posts[Math.floor(Math.random() * posts.length)];
+  const randomUrl = '/' + randomPost;
+  window.pjax ? pjax.loadUrl(randomUrl) : window.open(randomUrl, '_self');
+}</script><!-- hexo injector body_end start --><script data-pjax>
+  function butterfly_swiper_injector_config(){
+    var parent_div_git = document.getElementById('recent-posts');
+    var item_html = '<div class="recent-post-item" style="height: auto;width: 100%"><div class="blog-slider swiper-container-fade swiper-container-horizontal" id="swiper_container"><div class="blog-slider__wrp swiper-wrapper" style="transition-duration: 0ms;"><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;2026/02/01/PicGo图床搭建指南/&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://b5dbf24.webp.li/icons/tuchuang.gif" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2026-02-01</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;2026/02/01/PicGo图床搭建指南/&quot;);" href="javascript:void(0);" alt="">从零开始搭建图床</a><div class="blog-slider__text">再怎么看我也不知道怎么描述它的啦！</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;2026/02/01/PicGo图床搭建指南/&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;2026/02/01/Con-Nav-Item安装指南/&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://b5dbf24.webp.li/icons/Con-Nav-Item.png" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2026-02-01</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;2026/02/01/Con-Nav-Item安装指南/&quot;);" href="javascript:void(0);" alt="">搭建现代化浏览器导航站</a><div class="blog-slider__text">再怎么看我也不知道怎么描述它的啦！</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;2026/02/01/Con-Nav-Item安装指南/&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div></div><div class="blog-slider__pagination swiper-pagination-clickable swiper-pagination-bullets"></div></div></div>';
+    console.log('已挂载butterfly_swiper')
+    parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  var elist = 'undefined'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_swiper_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_swiper_injector_config();
+  }
+  </script><script defer src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.js"></script><script defer data-pjax src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper_init.js"></script><script async src="//at.alicdn.com/t/font_2032782_8d5kxvn09md.js"></script><!-- hexo injector body_end end --></body></html>

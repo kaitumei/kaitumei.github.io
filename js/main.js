@@ -127,12 +127,43 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const copy = async (text, ctx) => {
+      // Flag to prevent double notification in handleCopy
+      window.isCodeCopy = true
       try {
-        await navigator.clipboard.writeText(text)
-        alertInfo(ctx, GLOBAL_CONFIG.copy.success)
-      } catch (err) {
-        console.error('Failed to copy: ', err)
-        alertInfo(ctx, GLOBAL_CONFIG.copy.noSupport)
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          try {
+            await navigator.clipboard.writeText(text)
+            alertInfo(ctx, GLOBAL_CONFIG.copy.success)
+            return
+          } catch (err) {
+            console.error('Failed to copy via clipboard API: ', err)
+          }
+        }
+
+        // Fallback for browsers that don't support clipboard API or when it fails
+        try {
+          const textArea = document.createElement('textarea')
+          textArea.value = text
+          // Ensure textarea is not visible but part of the DOM
+          textArea.style.position = 'fixed'
+          textArea.style.left = '-9999px'
+          textArea.style.top = '0'
+          document.body.appendChild(textArea)
+          textArea.focus()
+          textArea.select()
+          const successful = document.execCommand('copy')
+          document.body.removeChild(textArea)
+          if (successful) {
+            alertInfo(ctx, GLOBAL_CONFIG.copy.success)
+          } else {
+            alertInfo(ctx, GLOBAL_CONFIG.copy.noSupport)
+          }
+        } catch (err) {
+          console.error('Fallback copy failed: ', err)
+          alertInfo(ctx, GLOBAL_CONFIG.copy.noSupport)
+        }
+      } finally {
+        window.isCodeCopy = false
       }
     }
 
@@ -760,6 +791,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const { limitCount, languages } = GLOBAL_CONFIG.copyright
 
     const handleCopy = e => {
+      if (window.isCodeCopy) return
       e.preventDefault()
       const copyFont = window.getSelection(0).toString()
       let textFont = copyFont
@@ -767,9 +799,49 @@ document.addEventListener('DOMContentLoaded', () => {
         textFont = `${copyFont}\n\n\n${languages.author}\n${languages.link}${window.location.href}\n${languages.source}\n${languages.info}`
       }
       if (e.clipboardData) {
-        return e.clipboardData.setData('text', textFont)
+        e.clipboardData.setData('text', textFont)
       } else {
-        return window.clipboardData.setData('text', textFont)
+        window.clipboardData.setData('text', textFont)
+      }
+      // Show success message
+      if (GLOBAL_CONFIG.Snackbar !== undefined) {
+        btf.snackbarShow(GLOBAL_CONFIG.copy.success)
+      } else {
+        const copyBtn = document.querySelector('.copy-button') || document.body
+        // Reuse the existing alertInfo function logic if possible, or just create a simple toast
+        // Since alertInfo relies on 'ele' for positioning, and here we don't have a specific button,
+        // we might want to use a fixed position toast similar to how alertInfo handles the fallback but centered or bottom.
+        // However, looking at alertInfo implementation in main.js:
+        /*
+          if (GLOBAL_CONFIG.Snackbar !== undefined) {
+            btf.snackbarShow(text)
+          } else {
+             // ... creates .copy-notice element ...
+          }
+        */
+        // If Snackbar is enabled (which is likely for Butterfly theme), btf.snackbarShow is the best way.
+        // If not, we can manually trigger a toast.
+        
+        // Let's try to reuse alertInfo if possible, but it expects an element for positioning.
+        // If we want a global toast, we should check if btf.snackbarShow is available.
+        // The user wants the specific style. If they are using Snackbar, it will look like the screenshot if styled correctly.
+        // If they are not using Snackbar, the alertInfo creates a tooltip near the button.
+        // For general copy, we probably want a fixed toast.
+        
+        // Let's assume Snackbar is the preferred way for "global" notifications in this theme.
+        if (typeof btf !== 'undefined' && btf.snackbarShow) {
+           btf.snackbarShow(GLOBAL_CONFIG.copy.success)
+        } else {
+           // Fallback simple toast if btf.snackbarShow is not available/configured
+           const newEle = document.createElement('div')
+           newEle.className = 'copy-notice'
+           newEle.textContent = GLOBAL_CONFIG.copy.success
+           newEle.style.cssText = 'position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 9999; background: #49b1f5; color: #fff; padding: 10px 20px; border-radius: 4px;'
+           document.body.appendChild(newEle)
+           setTimeout(() => {
+             newEle.remove()
+           }, 2000)
+        }
       }
     }
 
