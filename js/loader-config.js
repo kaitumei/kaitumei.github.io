@@ -1,0 +1,1 @@
+window.loaderConfig={enable:!0,imageUrl:"https://b5dbf24.webp.li/icons/404.gif",text:"加载中...",animationType:"pulse",showProgress:!1,duration:500,darkMode:!1};
